@@ -11,9 +11,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/jquery.dataTables.css" rel="stylesheet">
+    <link href="css/dataTables.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -41,6 +43,7 @@
                         <ul class="nav navbar-nav">
                             @if (Auth::check())
                             <li><a href="{{url('/home')}}">Dashboard</a></li>
+                            <li><a href="{{ route('authors.index')}}">Penulis</a></li>
                             @endif
                         </ul>
                     </ul>
@@ -50,7 +53,7 @@
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
+                            
                             <li><a href="{{ url('/register') }}">Daftar</a></li>
                         @else
                             <li class="dropdown">
@@ -82,7 +85,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="js/app.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.min.js"></script>
     @yield('scripts')
 </body>
 </html>
