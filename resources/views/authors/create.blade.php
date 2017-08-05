@@ -6,16 +6,18 @@
         <div class="col-md-12">
         <ul class="breadcrumb">
             <li><a href="{{ url('/home')}}">Dashboard</a></li>
+            <li><a href="{{ url('/admin/authors')}}">Penulis</a></li>
             <li class="active">Penulis</li>
         </ul>
         <div class="panel panel-default">
             <div class="panel-heading">
-            <h2 class="panel-title">Penulis</h2>
+            <h2 class="panel-title">Tambah Penulis</h2>
         </div>
 
         <div class="panel-body">
-        <p><a class="btn btn-primary" href="{{ route('authors.create')}}">Tambah</a></p>
-        {!! $html->table(['class'=>'table-striped']) !!}
+        {!! Form::open(['url'=>route('authors.store'), 'method'=>'post','class'=>'from-horizontal']) !!}
+        @include('authors._form')
+        {!! Form::close() !!}        
             
                 </div>
             </div>
@@ -24,6 +26,3 @@
 </div>
 @endsection
 
-@section('scripts')
-{!! $html->scripts() !!}
-@endsection

@@ -11,11 +11,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset ('css/app.css')}}" rel="stylesheet">
-    <link href="{{ asset('/css/jquery.dataTables.css')}}" rel="stylesheet">
-    <link href="{{ asset('/css/dataTables.css')}}" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/jquery.dataTables.css" rel="stylesheet">
+    <link href="/css/dataTables.bootstrap.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -42,9 +42,11 @@
                     <ul class="nav navbar-nav">
                         <ul class="nav navbar-nav">
                             @if (Auth::check())
-                            <li><a href="{{url('/home')}}">Dashboard</a></li>
-                            <li><a href="{{ route('authors.index')}}">Penulis</a></li>
+                            <li><a href="{{ url('/home')}}">Dashboard</a></li>
                             @endif
+                            @role('admin')
+                            <li><a href="{{ route('authors.index')}}">Penulis</a></li>
+                            @endrole
                         </ul>
                     </ul>
 
@@ -81,13 +83,15 @@
             </div>
         </nav>
 
+        @include('layouts._flash')
         @yield('content')
     </div>
 
     <!-- Scripts -->
-    <script src="js/app.js"></script>
-    <script src="js/jquery.dataTables.min.js"></script>
-    <script src="js/dataTables.min.js"></script>
+     <script src="/js/app.js"></script>
+       <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+  
     @yield('scripts')
 </body>
 </html>

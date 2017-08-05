@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Author;
+
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
+use App\Author;
+use Session;
 
 class AuthorsController extends Controller
 {
@@ -19,11 +21,17 @@ class AuthorsController extends Controller
         //
         if ($request->ajax()) {
             $authors= Author::select(['id','name']);
-            return Datatables::of($authors)->make(true);
+            return Datatables::of($authors)
+            ->addColumn('action',function($authors){
+                return view ('datatable._action',['edit_url'=>route('authors.edit',$authors->id),
+                    ]);
+            })->make(true);
         }
 
         $html = $htmlBuilder
-        ->addColumn(['data'=>'name','name'=>'name','title'=>'Nama']);
+        ->addColumn(['data'=>'name','name'=>'name','title'=>'Nama'])
+        ->addColumn(['data'=>'action','name'=>'action','title'=>'','orderable'=>false,'searchable'=>false]);
+
         return view('authors.index')->with(compact('html'));
     }
 
@@ -34,7 +42,7 @@ class AuthorsController extends Controller
      */
     public function create()
     {
-        //
+        return view('authors.create');
     }
 
     /**
@@ -45,7 +53,11 @@ class AuthorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,['name'=>'required|unique:authors']);
+        $authors = Author::create($request->only('name'));
+        Session::flash("flash_notification",["level"=>"succes","message"=>"Berhasil menyimpan $authors->name"
+            ]);
+        return redirect()->route('authors.index');
     }
 
     /**
@@ -67,7 +79,8 @@ class AuthorsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $authors = Author::find($id);
+        return view('authors.edit')->with(compact('authors'));
     }
 
     /**
@@ -79,7 +92,12 @@ class AuthorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,['name'=>'required|unique:authors,name,'.$id]);
+        $authors = Author::find($id);
+        $authors->update($request->only('name'));
+        Session::flash("flash_notification",["level"=>"succes","message"=>"Berhasil menyimpan $authors->name"
+            ]);
+        return redirect()->route('authors.index');
     }
 
     /**
